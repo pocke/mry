@@ -3,7 +3,7 @@ module YAMLRewriter
     using ScalarWithMark
     # @param yaml [String]
     def initialize(yaml)
-      @yaml = yaml
+      @yaml = yaml.dup
       @offset = 0
     end
 

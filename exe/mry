@@ -1,1 +1,5 @@
 #!ruby
+
+require 'mry'
+
+exit Mry::CLI.run(ARGV)
