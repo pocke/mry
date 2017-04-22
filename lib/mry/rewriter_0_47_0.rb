@@ -6,5 +6,6 @@ module Mry
     define_rule ['Lint/EndAlignment', 'AlignWith' => 'EnforcedStyleAlignWith']
     define_rule ['Lint/DefEndAlignment', 'AlignWith' => 'EnforcedStyleAlignWith']
     define_rule ['Rails/UniqBeforePluck', 'EnforcedMode' => 'EnforcedStyle']
+    define_rule ['Style/MethodCallParentheses' => 'Style/MethodCallWithoutArgsParentheses']
   end
 end
