@@ -1,0 +1,15 @@
+language: ruby
+
+rvm:
+  - 2.3.3
+  - 2.4.1
+  - ruby-head
+
+cache: bundler
+bundler_args: --jobs=4 --retry=3
+sudo: false
+
+
+
+script:
+  - bundle exec rake test
