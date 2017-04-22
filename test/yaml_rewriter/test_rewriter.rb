@@ -71,6 +71,30 @@ class TestRewriter < Minitest::Test
               meow: 42
         END
       ],
+      [
+        [
+          ['foo', 'bar', 'baz' => 'hello'],
+          ['foo', 'cat', 'dog' => 'meow']
+        ],
+        <<~END,
+          # にゃーん
+          foo:
+            bar:
+              baz: 'poyo'
+              # にゃん🐱
+            cat:
+              dog: 42
+        END
+        <<~END,
+          # にゃーん
+          foo:
+            bar:
+              hello: 'poyo'
+              # にゃん🐱
+            cat:
+              meow: 42
+        END
+      ],
     ].each do |rules, src, expected|
       klass = Class.new(YAMLRewriter::Rewriter) do
         rules.each do |rule|
