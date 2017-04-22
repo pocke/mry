@@ -1,0 +1,10 @@
+# To use the MeowCop gem.
+inherit_gem:
+  meowcop:
+    - config/rubocop.yml
+
+AllCops:
+  TargetRubyVersion: 2.3
+
+Rails:
+  Enabled: false
