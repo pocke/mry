@@ -16,7 +16,12 @@ module Mry
         target = Gem::Version.new('10000000000000000000')
         opt = OptionParser.new
         opt.on('-t=TARGET_VERSION', '--target=TARGET_VERSION') do |t|
-          target = Gem::Version.new(t)
+          target =
+            if t == 'master'
+              :master
+            else
+              Gem::Version.new(t)
+            end
         end
         opt.parse!(argv)
 

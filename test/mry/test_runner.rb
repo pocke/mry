@@ -1,6 +1,37 @@
 require 'test_helper'
 
 class TestRunner < Minitest::Test
+  def test_run_with_master
+    prev = <<~END
+      # master
+      Style/Tab:
+        Enabled: true
+
+      # 0.47.0
+      Lint/Eval:
+        Enabled: true
+
+      # 0.46.0
+      Performance/SortWithBlock:
+        Enabled: false
+    END
+    expected = <<~END
+      # master
+      Layout/Tab:
+        Enabled: true
+
+      # 0.47.0
+      Security/Eval:
+        Enabled: true
+
+      # 0.46.0
+      Performance/CompareWithBlock:
+        Enabled: false
+    END
+
+    check_run(prev, expected, :master)
+  end
+
   def test_run_with_0_47_0
     prev = <<~END
       # 0.47.0
@@ -110,7 +141,7 @@ class TestRunner < Minitest::Test
     Tempfile.open do |file|
       file.write(prev)
       file.close
-      Mry::Runner.run([file.path], Gem::Version.new(version))
+      Mry::Runner.run([file.path], version.is_a?(Symbol) ? version : Gem::Version.new(version))
       got = File.read(file.path)
       assert {expected == got}
     end

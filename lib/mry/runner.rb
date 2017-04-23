@@ -8,9 +8,14 @@ module Mry
 
     class << self
       def run(files, target)
-        rewriters = Rewriters
-          .select{|key, _value| target >= key}
-          .values.reverse
+        rewriters =
+          if target == :master
+            (Rewriters.values + [Rewriter_Master]).reverse
+          else
+            Rewriters
+              .select{|key, _value| target >= key}
+              .values.reverse
+          end
 
         files.each do |file|
           yaml = File.read(file)
