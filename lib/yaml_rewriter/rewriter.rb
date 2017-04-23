@@ -47,7 +47,8 @@ module YAMLRewriter
         index = key.mark.index + @offset
         prev = key.value
         new = rule.last[prev]
-        @yaml[(index-prev.size-1)..index-2] = new
+        start_index = @yaml.rindex(prev, index)
+        @yaml[start_index..(start_index+prev.size-1)] = new
         @offset += new.size-prev.size
       end
     end

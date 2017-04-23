@@ -8,8 +8,9 @@ module YAMLRewriter
     end
 
     def scalar(value, anchor, tag, plain, quoted, style)
+        mark = @parser.mark
       super.tap do |scalar|
-        scalar.mark = @parser.mark
+        scalar.mark = mark
       end
     end
   end
