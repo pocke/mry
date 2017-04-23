@@ -138,10 +138,20 @@ class TestRunner < Minitest::Test
   end
 
   def check_run(prev, expected, version)
+    # Check runner
     Tempfile.open do |file|
       file.write(prev)
       file.close
       Mry::Runner.run([file.path], version.is_a?(Symbol) ? version : Gem::Version.new(version))
+      got = File.read(file.path)
+      assert {expected == got}
+    end
+
+    # Check `mry` command
+    Tempfile.open do |file|
+      file.write(prev)
+      file.close
+      system('ruby', Pathname(__dir__).join('../../exe/mry').to_s, '--target', version.to_s, file.path) || raise
       got = File.read(file.path)
       assert {expected == got}
     end
