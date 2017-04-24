@@ -4,8 +4,12 @@ module Mry
       # @param argv [Array<String>]
       # @return [Integer] exit code
       def run(argv)
-        target = parse_option(argv)
-        Runner.run(argv, target)
+        parse_option(argv)
+        if argv.empty?
+          puts option.help
+          return 1
+        end
+        Runner.run(argv, @target)
         return 0
       end
 
@@ -13,19 +17,21 @@ module Mry
       private
 
       def parse_option(argv)
-        target = Gem::Version.new('10000000000000000000')
+        @target = nil
+        option.parse!(argv)
+      end
+
+      def option
         opt = OptionParser.new
+        opt.banner = 'Usage: mry [options] [.rubocop.yml]'
         opt.on('-t=TARGET_VERSION', '--target=TARGET_VERSION') do |t|
-          target =
+          @target =
             if t == 'master'
               :master
             else
               Gem::Version.new(t)
             end
         end
-        opt.parse!(argv)
-
-        return target
       end
     end
   end
