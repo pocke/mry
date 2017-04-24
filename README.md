@@ -5,7 +5,7 @@ Mry Migrates .Rubocop.Yml :muscle:
 
 RuboCop has many many breaking changes, because it is before version 1.0.
 So, if you update RuboCop version, in many cases .rubocop.yml breaks...
-This tool supports migrating `.rubocop.yml`.  With this tool, you do not have to be afraid of updating RuboCop anymore.
+This tool supports migrating `.rubocop.yml`. It automatically rename the configuration in your `.rubocop.yml` that is renamed by updating RuboCop. So, with this tool, you do not have to be afraid of updating RuboCop anymore!
 
 ## Installation
 
@@ -36,6 +36,11 @@ Update `.rubocop.yml` to version 0.48.0:
 ```bash
 $ mry --target=0.48.0 .rubocop.yml
 ```
+
+### Example
+
+
+![Example Animation](https://cloud.githubusercontent.com/assets/4361134/25322816/8188f21a-28f5-11e7-9915-93f72034e3ea.gif)
 
 ## Development
 
