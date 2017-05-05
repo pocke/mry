@@ -137,12 +137,77 @@ class TestRunner < Minitest::Test
     check_run(prev, expected, '0')
   end
 
+  def test_run_without_target_option
+    prev = <<~END
+      # master; it must not be rewrited.
+      Style/Tab:
+        Enabled: true
+
+      # 0.47.0
+      Lint/Eval:
+        Enabled: true
+      Style/CaseIndentation:
+        IndentWhenRelativeTo: case
+      Lint/BlockAlignment:
+        AlignWith: either
+      Lint/EndAlignment:
+        AlignWith: either
+      Lint/DefEndAlignment:
+        AlignWith: either
+      Rails/UniqBeforePluck:
+        EnforcedMode: conservative
+      Style/MethodCallParentheses:
+        Enabled: false
+
+      # 0.46.0
+      Performance/SortWithBlock:
+        Enabled: false
+    END
+    expected = <<~END
+      # master; it must not be rewrited.
+      Style/Tab:
+        Enabled: true
+
+      # 0.47.0
+      Security/Eval:
+        Enabled: true
+      Style/CaseIndentation:
+        EnforcedStyle: case
+      Lint/BlockAlignment:
+        EnforcedStyleAlignWith: either
+      Lint/EndAlignment:
+        EnforcedStyleAlignWith: either
+      Lint/DefEndAlignment:
+        EnforcedStyleAlignWith: either
+      Rails/UniqBeforePluck:
+        EnforcedStyle: conservative
+      Style/MethodCallWithoutArgsParentheses:
+        Enabled: false
+
+      # 0.46.0
+      Performance/CompareWithBlock:
+        Enabled: false
+    END
+
+    check_run(prev, expected, nil)
+  end
+
   def check_run(prev, expected, version)
     # Check runner
     Tempfile.open do |file|
       file.write(prev)
       file.close
-      Mry::Runner.run([file.path], version.is_a?(Symbol) ? version : Gem::Version.new(version))
+      v =
+        case version
+        when nil
+          Gem::Version.new('1000000')
+        when Symbol
+          version
+        else
+          Gem::Version.new(version)
+        end
+
+      Mry::Runner.run([file.path], v)
       got = File.read(file.path)
       assert {expected == got}
     end
@@ -151,7 +216,8 @@ class TestRunner < Minitest::Test
     Tempfile.open do |file|
       file.write(prev)
       file.close
-      system('ruby', Pathname(__dir__).join('../../exe/mry').to_s, '--target', version.to_s, file.path) || raise
+      target = version ? ['--target', version.to_s] : []
+      system('ruby', Pathname(__dir__).join('../../exe/mry').to_s, *target, file.path) || raise
       got = File.read(file.path)
       assert {expected == got}
     end
