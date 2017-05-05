@@ -17,7 +17,7 @@ module Mry
       private
 
       def parse_option(argv)
-        @target = nil
+        @target = Gem::Version.new('1000000')
         option.parse!(argv)
       end
 
