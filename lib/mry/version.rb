@@ -1,3 +1,3 @@
 module Mry
-  VERSION = "0.48.1.1"
+  VERSION = "0.48.1.2"
 end
