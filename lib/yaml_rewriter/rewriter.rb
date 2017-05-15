@@ -1,4 +1,20 @@
 module YAMLRewriter
+  # Usage:
+  #   class MyRewriter < YAMLRewriter::Rewriter
+  #     define_rule ['foo' => 'bar']
+  #     define_rule ['one', 'two', 'threeee' => 'three']
+  #   end
+  #
+  #   MyRewriter.new('foo: baz').rewrite # => 'bar: baz'
+  #
+  #   rewriter = MyRewriter.new(<<-END)
+  #     one:
+  #       two:
+  #         threeee: 123
+  #   END
+  #   rewriter.rewrite # => one:
+  #                           two:
+  #                             three: 123
   class Rewriter
     using ScalarWithMark
     # @param yaml [String]
