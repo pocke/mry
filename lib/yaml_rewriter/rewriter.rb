@@ -58,11 +58,11 @@ module YAMLRewriter
 
     def rewrite_yaml(path, key)
       self.class.rules.each do |rule|
-        next unless rule.match?(path)
+        next unless rule.match?(path, reverse: false)
 
         index = key.mark.index + @offset
         prev = key.value
-        new = rule.replacement(prev)
+        new = rule.replacement(prev, reverse: false)
         start_index = @yaml.rindex(prev, index)
         @yaml[start_index..(start_index+prev.size-1)] = new
         @offset += new.size-prev.size

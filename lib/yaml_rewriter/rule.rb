@@ -4,13 +4,16 @@ module YAMLRewriter
       @rule = rule
     end
 
-    def match?(path)
-      rule_path = @rule[0..-2] + [@rule.last.keys.first]
+    def match?(path, reverse:)
+      rule_path = @rule[0..-2] +
+        (reverse ? [@rule.last.values.first] : [@rule.last.keys.first])
       rule_path == (path[(path.size-@rule.size)..-1])
     end
 
-    def replacement(key)
-      @rule.last[key]
+    def replacement(key, reverse:)
+      reverse ?
+        @rule.last.invert[key] :
+        @rule.last[key]
     end
   end
 end
