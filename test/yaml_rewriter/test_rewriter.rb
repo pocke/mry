@@ -136,6 +136,35 @@ class TestRewriter < Minitest::Test
       end
       rewrited = klass.new(src).rewrite
       assert { rewrited == expected }
+
+      reversed_rewrited = klass.new(src, reverse: true).rewrite
+      assert { reversed_rewrited == src }
     end
+  end
+
+  def test_rewriter_with_reverse
+    klass = Class.new(YAMLRewriter::Rewriter) do
+      define_rule ['foo', 'bar' => 'baz']
+      define_rule ['hello' => 'world']
+    end
+
+    src = <<~END
+      foo:
+        baz: 42
+      world:
+        foo:
+          baz: 424242
+    END
+
+    expected = <<~END
+      foo:
+        bar: 42
+      hello:
+        foo:
+          bar: 424242
+    END
+
+    rewrited = klass.new(src, reverse: true).rewrite
+    assert { rewrited == expected }
   end
 end
