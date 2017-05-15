@@ -8,22 +8,30 @@ module Mry
 
     class << self
       def run(files, target)
-        rewriters =
-          if target == :master
-            (Rewriters.values + [Rewriter_Master]).reverse
-          else
-            Rewriters
-              .select{|key, _value| target >= key}
-              .values.reverse
-          end
+        rewriters, reverse_rewriters = *rewriters(target)
 
         files.each do |file|
           yaml = File.read(file)
+          reverse_rewriters.each do |r|
+            yaml = r.new(yaml, reverse: true).rewrite
+          end
           rewriters.each do |r|
             yaml = r.new(yaml).rewrite
           end
           File.write(file, yaml)
         end
+      end
+
+
+      private
+
+      # @return [Array<Array<Rewriter>>]
+      def rewriters(target)
+        return [(Rewriters.values + [Rewriter_Master]).reverse, []] if target == :master
+
+        Rewriters
+          .partition{|key, _value| target >= key}
+          .map{|rewriters| rewriters.map{|k, v| v}.reverse}
       end
     end
   end

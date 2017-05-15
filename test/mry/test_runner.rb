@@ -34,6 +34,10 @@ class TestRunner < Minitest::Test
 
   def test_run_with_0_47_0
     prev = <<~END
+      # master
+      Style/Tab:
+        Enabled: true
+
       # 0.47.0
       Lint/Eval:
         Enabled: true
@@ -55,6 +59,10 @@ class TestRunner < Minitest::Test
         Enabled: false
     END
     expected = <<~END
+      # master
+      Style/Tab:
+        Enabled: true
+
       # 0.47.0
       Security/Eval:
         Enabled: true
@@ -84,6 +92,12 @@ class TestRunner < Minitest::Test
       # 0.47.0
       Lint/Eval:
         Enabled: true
+      Style/CaseIndentation:
+        EnforcedStyle: case
+      Style/MethodCallWithoutArgsParentheses:
+        Description: 'Do not use parentheses for method calls with no arguments.'
+        StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#no-args-no-parens'
+        Enabled: false
 
       # 0.46.0
       Performance/SortWithBlock:
@@ -93,6 +107,12 @@ class TestRunner < Minitest::Test
       # 0.47.0
       Lint/Eval:
         Enabled: true
+      Style/CaseIndentation:
+        IndentWhenRelativeTo: case
+      Style/MethodCallParentheses:
+        Description: 'Do not use parentheses for method calls with no arguments.'
+        StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#no-args-no-parens'
+        Enabled: false
 
       # 0.46.0
       Performance/CompareWithBlock:
