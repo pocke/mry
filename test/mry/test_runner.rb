@@ -159,15 +159,13 @@ class TestRunner < Minitest::Test
 
   def test_run_without_target_option
     prev = <<~END
-      # master; it must not be rewrited.
+      # 0.49.0
       Style/Tab:
         Enabled: true
 
       # 0.47.0
       Lint/Eval:
         Enabled: true
-      Style/CaseIndentation:
-        IndentWhenRelativeTo: case
       Lint/BlockAlignment:
         AlignWith: either
       Lint/EndAlignment:
@@ -184,15 +182,13 @@ class TestRunner < Minitest::Test
         Enabled: false
     END
     expected = <<~END
-      # master; it must not be rewrited.
-      Style/Tab:
+      # 0.49.0
+      Layout/Tab:
         Enabled: true
 
       # 0.47.0
       Security/Eval:
         Enabled: true
-      Style/CaseIndentation:
-        EnforcedStyle: case
       Lint/BlockAlignment:
         EnforcedStyleAlignWith: either
       Lint/EndAlignment:
