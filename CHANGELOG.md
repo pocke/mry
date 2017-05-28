@@ -2,6 +2,12 @@
 
 ## master (unreleased)
 
+## 0.49.0.0 (2017-05-28)
+
+### New Features
+
+- [#13](https://github.com/pocke/mry/pull/13): Support RuboCop 0.49.0. ([@pocke][])
+
 ## 0.48.1.3 (2017-05-15)
 
 ### New Features

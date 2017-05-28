@@ -1,6 +1,7 @@
 module Mry
   module Runner
     Rewriters = {
+      Gem::Version.new('0.49.0') => Rewriter_0_49_0,
       Gem::Version.new('0.47.0') => Rewriter_0_47_0,
       Gem::Version.new('0.46.0') => Rewriter_0_46_0,
       Gem::Version.new('0') => Rewriter_0,
