@@ -4,6 +4,10 @@ class TestRunner < Minitest::Test
   def test_run_with_master
     prev = <<~END
       # master
+      Style/VariableName:
+        Enabled: true
+
+      # 0.49.0
       Style/Tab:
         Enabled: true
 
@@ -17,6 +21,10 @@ class TestRunner < Minitest::Test
     END
     expected = <<~END
       # master
+      Naming/VariableName:
+        Enabled: true
+
+      # 0.49.0
       Layout/Tab:
         Enabled: true
 
