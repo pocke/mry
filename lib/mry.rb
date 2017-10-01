@@ -3,6 +3,7 @@ require 'optparse'
 
 require "mry/version"
 require 'mry/rewriter_master'
+require 'mry/rewriter_0_50_0'
 require 'mry/rewriter_0_49_0'
 require 'mry/rewriter_0_47_0'
 require 'mry/rewriter_0_46_0'
