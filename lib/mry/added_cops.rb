@@ -110,6 +110,14 @@ module Mry
     }.freeze
 
     class << self
+      def added_cops_yaml(from:, to:)
+        require 'rubocop'
+        cops = added_cops(from: from, to: to)
+        stdout do
+          RuboCop::CLI.new.run(['--show-cops', cops.join(',')])
+        end
+      end
+
       def added_cops(from:, to:)
         range = from..to
         Cops
@@ -133,6 +141,15 @@ module Mry
         end
 
         cop
+      end
+
+      def stdout(&block)
+        stdout_back = $stdout
+        $stdout = StringIO.new
+        block.call
+        $stdout.string
+      ensure
+        $stdout = stdout_back
       end
     end
   end

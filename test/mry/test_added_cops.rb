@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'yaml'
 
 class TestAddedCops < Minitest::Test
   def test_added_cops
@@ -55,5 +56,14 @@ class TestAddedCops < Minitest::Test
       Rails/Blank
       Rails/Present
     ], cops
+  end
+
+  def test_added_cops_yaml
+    yaml = Mry::AddedCops.added_cops_yaml(
+      from: Gem::Version.new('0.47.0'),
+      to: Gem::Version.new('0.49.0'),
+    )
+    assert yaml.is_a?(String)
+    assert YAML.parse(yaml)
   end
 end
