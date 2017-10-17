@@ -112,13 +112,27 @@ module Mry
     class << self
       def added_cops(from:, to:)
         range = from..to
-        Cops.flat_map {|key, cops|  range.cover?(key) && from != key ? cops : [] }
+        Cops
+          .flat_map {|key, cops|  range.cover?(key) && from != key ? cops : [] }
+          .map {|cop| update_name(cop: cop, to: to) }
       end
 
       private
 
-      def update_name(cop:, from:, to:)
+      def update_name(cop:, to:)
+        rewriters, reverse_rewriters = *Rewriters.rewriters(to)
+        reverse_rewriters.each do |rew|
+          rew.rules.each do |rule|
+            cop = rule.replacement(cop, reverse: true) if rule.match?([cop], reverse: true)
+          end
+        end
+        rewriters.each do |rew|
+          rew.rules.each do |rule|
+            cop = rule.replacement(cop, reverse: false) if rule.match?([cop], reverse: false)
+          end
+        end
 
+        cop
       end
     end
   end

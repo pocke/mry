@@ -43,12 +43,12 @@ class TestAddedCops < Minitest::Test
       Style/MultipleComparison
       Lint/RescueType
       Performance/DoubleStartEndWith
-      Style/EmptyLineAfterMagicComment
+      Layout/EmptyLineAfterMagicComment
       Style/MixinGrouping
-      Style/EmptyLinesAroundBeginBody
-      Style/EmptyLinesAroundExceptionHandlingKeywords
+      Layout/EmptyLinesAroundBeginBody
+      Layout/EmptyLinesAroundExceptionHandlingKeywords
       Rails/RelativeDateConstant
-      Style/IndentHeredoc
+      Layout/IndentHeredoc
       Style/InverseMethods
       Rails/ActiveSupportAliases
       Lint/AmbiguousBlockAssociation
