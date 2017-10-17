@@ -111,6 +111,13 @@ module Mry
 
     class << self
       def added_cops(from:, to:)
+        range = from..to
+        Cops.flat_map {|key, cops|  range.cover?(key) && from != key ? cops : [] }
+      end
+
+      private
+
+      def update_name(cop:, from:, to:)
 
       end
     end
