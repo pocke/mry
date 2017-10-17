@@ -4,7 +4,6 @@ module Mry
     define_rule ['Lint/SpaceBeforeFirstArg' => 'Style/SpaceBeforeFirstArg']
     define_rule ['Style/SpaceAfterControlKeyword' => 'Style/SpaceAroundKeyword']
     define_rule ['Style/SpaceBeforeModifierKeyword' => 'Style/SpaceAroundKeyword']
-    define_rule ['Style/DeprecatedHashMethods' => 'Style/PreferredHashMethods']
     define_rule ['Style/SpaceAroundOperators', 'MultiSpaceAllowedForOperators' => 'AllowForAlignment']
   end
 end
