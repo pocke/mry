@@ -120,10 +120,30 @@ module Mry
       ],
     }.freeze
 
+    class RuboCopVersionMismatchError < StandardError
+      def initialize(expected:)
+        @expected = expected
+      end
+
+      def message
+        <<~MES
+
+          `require 'rubocop'` is failed because mry can't find rubocop v#{@expected}.
+          Execute `gem install rubocop -v #{@expected}`.
+          Or update rubocop version in your Gemfile, and execute `bundle install` if you use `bundle exec`.
+
+        MES
+      end
+    end
+
     class << self
       def added_cops_yaml(from:, to:)
-        # TODO: check rubocop version
-        require 'rubocop'
+        begin
+          gem 'rubocop', "= #{to}"
+          require 'rubocop'
+        rescue Gem::MissingSpecVersionError, Gem::LoadError
+          raise RuboCopVersionMismatchError.new(expected: to)
+        end
         cops = added_cops(from: from, to: to)
         return if cops.empty?
 
