@@ -1,6 +1,17 @@
 module Mry
   module AddedCops
     Cops = {
+      Gem::Version.new('0.51.0') => %w[
+        Rails/UnknownEnv
+        Style/StderrPuts
+        Lint/UnneededRequireStatement
+        Lint/RedundantWithObject
+        Style/CommentedKeyword
+        Lint/RegexpAsCondition
+        Style/MixinUsage
+        Style/DateTime
+        Gemspec/OrderedDependencies
+      ],
       Gem::Version.new('0.50.0') => %w[
         Style/RedundantConditional
         Naming/HeredocDelimiterNaming

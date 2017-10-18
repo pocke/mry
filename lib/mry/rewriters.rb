@@ -3,6 +3,10 @@ module Mry
     class Rewriter_Master < YAMLRewriter::Rewriter
     end
 
+    class Rewriter_0_51_0 < YAMLRewriter::Rewriter
+      define_rule ['Lint/LiteralInCondition' => 'Lint/LiteralAsCondition']
+    end
+
     class Rewriter_0_50_0 < YAMLRewriter::Rewriter
       define_rule ['Style/AccessorMethodName' => 'Naming/AccessorMethodName']
       define_rule ['Style/AsciiIdentifiers' => 'Naming/AsciiIdentifiers']
@@ -141,6 +145,7 @@ module Mry
     end
 
     Rewriters = {
+      Gem::Version.new('0.51.0') => Rewriter_0_51_0,
       Gem::Version.new('0.50.0') => Rewriter_0_50_0,
       Gem::Version.new('0.49.0') => Rewriter_0_49_0,
       Gem::Version.new('0.47.0') => Rewriter_0_47_0,
