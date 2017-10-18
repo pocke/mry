@@ -1,5 +1,7 @@
 require 'yaml_rewriter'
 require 'optparse'
+require 'tmpdir'
+require 'pathname'
 
 require "mry/version"
 require 'mry/rewriters'

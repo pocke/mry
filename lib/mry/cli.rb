@@ -9,7 +9,7 @@ module Mry
           puts option.help
           return 1
         end
-        Runner.run(argv, @target)
+        Runner.run(argv, to: @target, from: @from)
         return 0
       end
 

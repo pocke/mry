@@ -216,7 +216,78 @@ class TestRunner < Minitest::Test
     check_run(prev, expected, nil)
   end
 
-  def check_run(prev, expected, version)
+  def test_run_with_from_option
+    prev = <<~YAML
+      # Renamed
+      Lint/LiteralInCondition:
+        Enabled: false
+    YAML
+
+    expected = <<~YAML
+      # Renamed
+      Lint/LiteralAsCondition:
+        Enabled: false
+
+
+      # The following cops are added between 0.50.0 and 0.51.0.
+      # The configurations are default.
+      # If you want to use a cop by default, remove a configuration for the cop from here.
+      # If you want to disable a cop, change `Enabled` to false.
+
+      # Supports --auto-correct
+      Gemspec/OrderedDependencies:
+        Description: Dependencies in the gemspec should be alphabetically sorted.
+        Enabled: true
+        Include:
+        - "**/*.gemspec"
+        TreatCommentsAsGroupSeparators: true
+
+      # Supports --auto-correct
+      Lint/RedundantWithObject:
+        Description: Checks for redundant `with_object`.
+        Enabled: true
+
+      Lint/RegexpAsCondition:
+        Description: Do not use regexp literal as a condition. The regexp literal matches
+          `$_` implicitly.
+        Enabled: true
+
+      # Supports --auto-correct
+      Lint/UnneededRequireStatement:
+        Description: Checks for unnecessary `require` statement.
+        Enabled: true
+
+      Rails/UnknownEnv:
+        Description: Use correct environment name.
+        Enabled: false
+        Environments:
+        - development
+        - test
+        - production
+
+      Style/CommentedKeyword:
+        Description: Do not place comments on the same line as certain keywords.
+        Enabled: true
+
+      Style/DateTime:
+        Description: Use Date or Time over DateTime.
+        StyleGuide: "#date--time"
+        Enabled: true
+
+      Style/MixinUsage:
+        Description: Checks that `include`, `extend` and `prepend` exists at the top level.
+        Enabled: true
+
+      # Supports --auto-correct
+      Style/StderrPuts:
+        Description: Use `warn` instead of `$stderr.puts`.
+        StyleGuide: "#warn"
+        Enabled: true
+    YAML
+    check_run(prev, expected, '0.51.0', from: '0.50.0')
+  end
+
+  def check_run(prev, expected, version, from: nil)
     # Check runner
     Tempfile.open do |file|
       file.write(prev)
@@ -230,18 +301,22 @@ class TestRunner < Minitest::Test
         else
           Gem::Version.new(version)
         end
+      from_v = Gem::Version.new(from) if from
 
-      Mry::Runner.run([file.path], v)
+      Mry::Runner.run([file.path], to: v, from: from_v)
       got = File.read(file.path)
-      assert {expected == got}
+      assert_equal expected, got
     end
 
     # Check `mry` command
     Tempfile.open do |file|
       file.write(prev)
       file.close
-      target = version ? ['--target', version.to_s] : []
-      system('ruby', Pathname(__dir__).join('../../exe/mry').to_s, *target, file.path) || raise
+      args = [
+        (['--target', version.to_s] if version),
+        (['--from', from] if from),
+      ].flatten.compact
+      system('ruby', Pathname(__dir__).join('../../exe/mry').to_s, *args, file.path) || raise
       got = File.read(file.path)
       assert {expected == got}
     end

@@ -122,10 +122,15 @@ module Mry
 
     class << self
       def added_cops_yaml(from:, to:)
+        # TODO: check rubocop version
         require 'rubocop'
         cops = added_cops(from: from, to: to)
-        stdout do
-          RuboCop::CLI.new.run(['--show-cops', cops.join(',')])
+        return if cops.empty?
+
+        in_tmpdir do
+          stdout do
+            RuboCop::CLI.new.run(['--show-cops', cops.join(',')])
+          end
         end
       end
 
@@ -161,6 +166,14 @@ module Mry
         $stdout.string
       ensure
         $stdout = stdout_back
+      end
+
+      def in_tmpdir(&block)
+        Dir.mktmpdir do |dir|
+          Dir.chdir(dir) do
+            block.call(Pathname(dir))
+          end
+        end
       end
     end
   end
