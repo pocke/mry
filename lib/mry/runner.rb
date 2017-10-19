@@ -1,16 +1,8 @@
 module Mry
   module Runner
-    Rewriters = {
-      Gem::Version.new('0.50.0') => Rewriter_0_50_0,
-      Gem::Version.new('0.49.0') => Rewriter_0_49_0,
-      Gem::Version.new('0.47.0') => Rewriter_0_47_0,
-      Gem::Version.new('0.46.0') => Rewriter_0_46_0,
-      Gem::Version.new('0') => Rewriter_0,
-    }.freeze
-
     class << self
-      def run(files, target)
-        rewriters, reverse_rewriters = *rewriters(target)
+      def run(files, to: , from:)
+        rewriters, reverse_rewriters = *Rewriters.rewriters(to)
 
         files.each do |file|
           yaml = File.read(file)
@@ -20,20 +12,26 @@ module Mry
           rewriters.each do |r|
             yaml = r.new(yaml).rewrite
           end
+          yaml += added_cops(from: from, to: to) if from
           File.write(file, yaml)
         end
       end
 
-
       private
 
-      # @return [Array<Array<Rewriter>>]
-      def rewriters(target)
-        return [(Rewriters.values + [Rewriter_Master]).reverse, []] if target == :master
+      def added_cops(from:, to:)
+        yaml = AddedCops.added_cops_yaml(from: from, to: to)
 
-        Rewriters
-          .partition{|key, _value| target >= key}
-          .map{|rewriters| rewriters.map{|k, v| v}.reverse}
+        <<~MESSAGE.rstrip + "\n"
+
+
+          # The following cops are added between #{from} and #{to}.
+          # The configurations are default.
+          # If you want to use a cop by default, remove a configuration for the cop from here.
+          # If you want to disable a cop, change `Enabled` to false.
+
+          #{yaml}
+        MESSAGE
       end
     end
   end

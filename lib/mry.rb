@@ -1,15 +1,13 @@
 require 'yaml_rewriter'
 require 'optparse'
+require 'tmpdir'
+require 'pathname'
 
 require "mry/version"
-require 'mry/rewriter_master'
-require 'mry/rewriter_0_50_0'
-require 'mry/rewriter_0_49_0'
-require 'mry/rewriter_0_47_0'
-require 'mry/rewriter_0_46_0'
-require 'mry/rewriter_0'
+require 'mry/rewriters'
 require 'mry/runner'
 require 'mry/cli'
+require 'mry/added_cops'
 
 module Mry
 end

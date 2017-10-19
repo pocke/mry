@@ -9,7 +9,7 @@ module Mry
           puts option.help
           return 1
         end
-        Runner.run(argv, @target)
+        Runner.run(argv, to: @target, from: @from)
         return 0
       end
 
@@ -18,6 +18,7 @@ module Mry
 
       def parse_option(argv)
         @target = Gem::Version.new('1000000')
+        @from = nil
         option.parse!(argv)
       end
 
@@ -31,6 +32,10 @@ module Mry
             else
               Gem::Version.new(t)
             end
+        end
+
+        opt.on('--from=CURRENT_VERSION') do |t|
+          @from = Gem::Version.new(t)
         end
       end
     end
