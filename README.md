@@ -34,7 +34,38 @@ $ mry .rubocop.yml
 Update `.rubocop.yml` to version 0.48.0:
 
 ```bash
-$ mry --target=0.48.0 .rubocop.yml
+$ mry --target=0.51.0 .rubocop.yml
+```
+
+And you can specify current RuboCop version.
+If you specify current RuboCop version, mry adds cops that are added in new version RuboCop to your `.rubocop.yml`.
+By this feature, you can check new features of RuboCop with mry.
+
+```bash
+$ mry --from=0.50.0 --target=0.51.0 .rubocop.yml
+$ cat .rubocop.yml
+...
+
+
+# The following cops are added between 0.50.0 and 0.51.0.
+# The configurations are default.
+# If you want to use a cop by default, remove a configuration for the cop from here.
+# If you want to disable a cop, change `Enabled` to false.
+
+# Supports --auto-correct
+Gemspec/OrderedDependencies:
+  Description: Dependencies in the gemspec should be alphabetically sorted.
+  Enabled: true
+  Include:
+  - "**/*.gemspec"
+  TreatCommentsAsGroupSeparators: true
+
+# Supports --auto-correct
+Lint/RedundantWithObject:
+  Description: Checks for redundant `with_object`.
+  Enabled: true
+
+...
 ```
 
 ### Example
