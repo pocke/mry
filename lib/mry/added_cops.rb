@@ -147,7 +147,11 @@ module Mry
         cops = added_cops(from: from, to: to)
         return if cops.empty?
 
-        in_tmpdir do
+        in_tmpdir do |dir|
+          dir.join('.rubocop.yml').write(<<~YAML)
+            Rails:
+              Enabled: true
+          YAML
           stdout do
             RuboCop::CLI.new.run(['--show-cops', cops.join(',')])
           end
