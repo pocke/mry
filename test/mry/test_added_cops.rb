@@ -107,7 +107,7 @@ class TestAddedCops < Minitest::Test
 
       Rails/UnknownEnv:
         Description: Use correct environment name.
-        Enabled: false
+        Enabled: true
         Environments:
         - development
         - test
