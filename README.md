@@ -4,8 +4,8 @@ Mry Migrates .Rubocop.Yml :muscle:
 
 
 RuboCop has many many breaking changes, because it is before version 1.0.
-So, if you update RuboCop version, in many cases .rubocop.yml breaks...
-This tool supports migrating `.rubocop.yml`. It automatically rename the configuration in your `.rubocop.yml` that is renamed by updating RuboCop. So, with this tool, you do not have to be afraid of updating RuboCop anymore!
+So, if you update your RuboCop version, .rubocop.yml breaks in many cases...
+This tool supports migrating `.rubocop.yml`. It automatically renames the configuration in your `.rubocop.yml` that was renamed by the updated RuboCop version. So, with this tool, you do not have to be afraid of updating RuboCop anymore!
 
 ## Installation
 
@@ -31,15 +31,15 @@ Update `.rubocop.yml` to latest release:
 $ mry .rubocop.yml
 ```
 
-Update `.rubocop.yml` to version 0.48.0:
+Update `.rubocop.yml` to a specified version:
 
 ```bash
 $ mry --target=0.51.0 .rubocop.yml
 ```
 
-And you can specify current RuboCop version.
-If you specify current RuboCop version, mry adds cops that are added in new version RuboCop to your `.rubocop.yml`.
-By this feature, you can check new features of RuboCop with mry.
+And you can specify the current RuboCop version.
+If you specify a new RuboCop version, mry adds cops that were added in this new RuboCop version to your `.rubocop.yml`.
+With this feature, you can check new RuboCop cops with mry.
 
 ```bash
 $ mry --from=0.50.0 --target=0.51.0 .rubocop.yml
