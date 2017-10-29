@@ -1,6 +1,6 @@
 # Mry
 
-Mry Migrates `.rubocop.yml` :muscle:
+Mry Migrates .Rubocop.Yml :muscle:
 
 
 RuboCop has many many breaking changes, because it is before version 1.0.
