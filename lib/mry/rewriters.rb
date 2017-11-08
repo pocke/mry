@@ -1,6 +1,7 @@
 module Mry
   module Rewriters
     class Rewriter_Master < YAMLRewriter::Rewriter
+      define_rule ['Lint/RescueWithoutErrorClass' => 'Style/RescueStandardError']
     end
 
     class Rewriter_0_51_0 < YAMLRewriter::Rewriter
