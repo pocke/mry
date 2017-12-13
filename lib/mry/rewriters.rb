@@ -1,6 +1,9 @@
 module Mry
   module Rewriters
     class Rewriter_Master < YAMLRewriter::Rewriter
+    end
+
+    class Rewriter_0_52_0 < YAMLRewriter::Rewriter
       define_rule ['Lint/RescueWithoutErrorClass' => 'Style/RescueStandardError']
     end
 
@@ -137,6 +140,7 @@ module Mry
     class Rewriter_0_41_0 < YAMLRewriter::Rewriter
       define_rule ['Style/DeprecatedHashMethods' => 'Style/PreferredHashMethods']
     end
+
     class Rewriter_0 < YAMLRewriter::Rewriter
       define_rule ['Style/SingleSpaceBeforeFirstArg' => 'Style/SpaceBeforeFirstArg']
       define_rule ['Lint/SpaceBeforeFirstArg' => 'Style/SpaceBeforeFirstArg']
@@ -146,6 +150,7 @@ module Mry
     end
 
     Rewriters = {
+      Gem::Version.new('0.52.0') => Rewriter_0_51_0,
       Gem::Version.new('0.51.0') => Rewriter_0_51_0,
       Gem::Version.new('0.50.0') => Rewriter_0_50_0,
       Gem::Version.new('0.49.0') => Rewriter_0_49_0,
