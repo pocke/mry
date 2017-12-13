@@ -1,6 +1,32 @@
 module Mry
   module AddedCops
     Cops = {
+      Gem::Version.new('0.52.0') => %w[
+        Style/StringHashKeys
+        Style/RandomWithOffset
+        Lint/ShadowedArgument
+        Lint/MissingCopEnableDirective
+        Rails/EnvironmentComparison
+        Style/EmptyBlockParameter
+        Style/EmptyLambdaParameter
+        Style/TrailingBodyOnMethodDefinition
+        Rails/InverseOf
+        Style/TrailingMethodEndStatement
+        Gemspec/RequiredRubyVersion
+        Lint/NestedPercentLiteral
+        Gemspec/DuplicatedAssignment
+        Style/ColonMethodDefinition
+        Layout/ClassStructure
+        Rails/CreateTableWithTimestamps
+        Style/ExtendSelf
+        Rails/RedundantReceiverInWithOptions
+        Style/EvalWithLocation
+        Layout/EmptyLinesAroundArguments
+        Layout/SpaceInsideReferenceBrackets
+        Layout/SpaceInsideArrayLiteralBrackets
+        Rails/LexicallyScopedActionFilter
+        Rails/Presence
+      ],
       Gem::Version.new('0.51.0') => %w[
         Rails/UnknownEnv
         Style/StderrPuts
