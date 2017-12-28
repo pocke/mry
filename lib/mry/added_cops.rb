@@ -18,7 +18,6 @@ module Mry
         Style/ColonMethodDefinition
         Layout/ClassStructure
         Rails/CreateTableWithTimestamps
-        Style/ExtendSelf
         Rails/RedundantReceiverInWithOptions
         Style/EvalWithLocation
         Layout/EmptyLinesAroundArguments
