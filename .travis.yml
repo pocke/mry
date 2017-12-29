@@ -1,8 +1,9 @@
 language: ruby
 
 rvm:
-  - 2.3.5
-  - 2.4.2
+  - 2.3.6
+  - 2.4.3
+  - 2.5.0
   - ruby-head
 
 cache: bundler
@@ -10,6 +11,7 @@ bundler_args: --jobs=4 --retry=3
 sudo: false
 
 
+before_install: 'gem update --system'
 
 script:
   - bundle exec rake test
