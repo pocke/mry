@@ -1,6 +1,7 @@
 module Mry
   module Rewriters
     class Rewriter_Master < YAMLRewriter::Rewriter
+      define_rule ['Lint/UnneededDisable' => 'Style/UnneededCopDisableDirective']
     end
 
     class Rewriter_0_52_0 < YAMLRewriter::Rewriter
