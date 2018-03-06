@@ -1,0 +1,94 @@
+#!/usr/bin/env ruby
+
+# Usage: bin/check_rubocop_update v0.52.1 v0.53.0
+
+require 'open3'
+require 'yaml'
+require 'tmpdir'
+
+def debug_print(mes)
+  $stdout.puts mes
+end
+
+def sh!(*cmd)
+  debug_print 'sh!: ' + cmd.join(' ')
+  system(*cmd, exception: true)
+end
+
+def capture3!(*cmd)
+  debug_print 'capture3!: ' + cmd.join(' ')
+  Open3.capture3(*cmd).tap do |out, err, status|
+    raise "#{out} #{err}" unless status.success?
+  end
+end
+
+def each_commit(before, after, &block)
+  return enum_for(__method__, before, after) unless block_given?
+
+  commits = capture3!('git', 'log', "#{before}..#{after}", '--format=tformat:%H').yield_self do |stdout, _stderr, _status|
+    stdout.each_line.map(&:chomp)
+  end
+  commits.each do |commit|
+    sh! 'rm', '-f', 'Gemfile.lock' if File.exist?('Gemfile.lock')
+    sh! 'bundle', 'install' if has_gemfile_change?(commit)
+    sh! 'git', 'checkout', commit
+    block.call
+  end
+end
+
+def has_gemfile_change?(commit)
+  capture3!('git', 'show', '--name-only', '--format=tformat:', commit).yield_self do |stdout, _stderr, _status|
+    stdout.each_line.any? do |fname|
+      fname.chomp!
+      fname == 'Gemfile' || fname == 'rubocop.gemspec'
+    end
+  end
+end
+
+def chtmpdir(&block)
+  Dir.mktmpdir do |dir|
+    Dir.chdir(dir) do
+      block.call
+    end
+  end
+end
+
+def main(before, after)
+  {}.tap do |result|
+    result[:added] = []
+    result[:renamed] = []
+    result[:deleted] = []
+
+    chtmpdir do
+      sh! 'git', 'clone', 'git@github.com:bbatsov/rubocop.git'
+      Dir.chdir('./rubocop') do
+        cops = each_commit(before + '~', after).map do
+          capture3!('bin/rubocop', '--show-cops').yield_self do |stdout, _, _|
+            YAML.load(stdout)
+          end
+        end
+        cops.each_cons(2) do |new, old|
+          added = new.keys - old.keys
+          removed = old.keys - new.keys
+          if added.size > removed.size && removed.size == 0
+            result[:added].concat added
+          elsif added.size < removed.size && added.size == 0
+            result[:deleted].concat removed
+          elsif added.size != 0 && removed.size != 0
+            result[:renamed] << {before: removed, after: added}
+          end
+        end
+      end
+    end
+  end
+end
+
+before = ARGV[0]
+after = ARGV[1]
+
+out = main(before, after)
+res = YAML.dump(out)
+puts res
+fname = '/tmp/mry_check_rubocop_update_log.yaml'
+File.write(fname, res)
+puts "Wrote: #{fname}"
