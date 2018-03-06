@@ -1,7 +1,15 @@
 module Mry
   module Rewriters
     class Rewriter_Master < YAMLRewriter::Rewriter
-      define_rule ['Lint/UnneededDisable' => 'Style/UnneededCopDisableDirective']
+    end
+
+    class Rewriter_0_53_0 < YAMLRewriter::Rewriter
+      define_rule ['Naming/UncommunicativeMethodArgName' => 'Naming/UncommunicativeMethodParamName']
+      define_rule ['Lint/ConditionPosition' => 'Layout/ConditionPosition']
+      define_rule ['Lint/BlockAlignment' => 'Layout/BlockAlignment']
+      define_rule ['Lint/DefEndAlignment' => 'Layout/DefEndAlignment']
+      define_rule ['Lint/EndAlignment' => 'Layout/EndAlignment']
+      define_rule ['Lint/UnneededDisable' => 'Lint/UnneededCopDisableDirective']
     end
 
     class Rewriter_0_52_0 < YAMLRewriter::Rewriter
@@ -151,7 +159,8 @@ module Mry
     end
 
     Rewriters = {
-      Gem::Version.new('0.52.0') => Rewriter_0_51_0,
+      Gem::Version.new('0.53.0') => Rewriter_0_53_0,
+      Gem::Version.new('0.52.0') => Rewriter_0_52_0,
       Gem::Version.new('0.51.0') => Rewriter_0_51_0,
       Gem::Version.new('0.50.0') => Rewriter_0_50_0,
       Gem::Version.new('0.49.0') => Rewriter_0_49_0,
