@@ -197,11 +197,11 @@ class TestRunner < Minitest::Test
       # 0.47.0
       Security/Eval:
         Enabled: true
-      Lint/BlockAlignment:
+      Layout/BlockAlignment:
         EnforcedStyleAlignWith: either
-      Lint/EndAlignment:
+      Layout/EndAlignment:
         EnforcedStyleAlignWith: either
-      Lint/DefEndAlignment:
+      Layout/DefEndAlignment:
         EnforcedStyleAlignWith: either
       Rails/UniqBeforePluck:
         EnforcedStyle: conservative
