@@ -1,23 +1,24 @@
 #!/usr/bin/env ruby
 
-# Usage: bin/check_rubocop_update v0.52.1 v0.53.0
+# Usage: bin/check_rubocop_update v0.52.1 v0.53.0 ~/path/to/rubocop/
 
 require 'open3'
 require 'yaml'
 require 'tmpdir'
+require 'etc'
 
 def debug_print(mes)
   $stdout.puts mes
 end
 
-def sh!(*cmd)
+def sh!(*cmd, **opt)
   debug_print 'sh!: ' + cmd.join(' ')
-  system(*cmd, exception: true)
+  system(*cmd, opt.merge(exception: true))
 end
 
-def capture3!(*cmd)
+def capture3!(*cmd, **opt)
   debug_print 'capture3!: ' + cmd.join(' ')
-  Open3.capture3(*cmd).tap do |out, err, status|
+  Open3.capture3(*cmd, **opt).tap do |out, err, status|
     raise "#{out} #{err}" unless status.success?
   end
 end
@@ -29,15 +30,12 @@ def each_commit(before, after, &block)
     stdout.each_line.map(&:chomp)
   end
   commits.each do |commit|
-    sh! 'rm', '-f', 'Gemfile.lock' if File.exist?('Gemfile.lock')
-    sh! 'bundle', 'install' if has_gemfile_change?(commit)
-    sh! 'git', 'checkout', commit
-    block.call
+    block.call commit
   end
 end
 
-def has_gemfile_change?(commit)
-  capture3!('git', 'show', '--name-only', '--format=tformat:', commit).yield_self do |stdout, _stderr, _status|
+def has_gemfile_change?(commit, repo)
+  capture3!('git', 'show', '--name-only', '--format=tformat:', commit, chdir: repo).yield_self do |stdout, _stderr, _status|
     stdout.each_line.any? do |fname|
       fname.chomp!
       fname == 'Gemfile' || fname == 'rubocop.gemspec'
@@ -53,40 +51,81 @@ def chtmpdir(&block)
   end
 end
 
-def main(before, after)
+def with_repositories(remote, &block)
+  if File.directory?(remote)
+    Dir.chdir(remote) do
+      sh! 'git', 'fetch', 'origin'
+    end
+  end
+
+  chtmpdir do
+    repos = Array.new(Etc.nprocessors*2) do |idx|
+      sh! 'git', 'clone', remote, idx.to_s
+      File.join(Dir.pwd, idx.to_s)
+    end
+    block.call(repos)
+  end
+end
+
+def cops_each_commit(before, after, remote)
+  with_repositories(remote) do |repos|
+    q = Thread::Queue.new
+    [].tap do |result|
+      Dir.chdir(repos.first) do
+        each_commit(before + '~', after).each.with_index do |commit, idx|
+          q << [commit, idx]
+        end
+      end
+      q.close
+      repos.map do |repo|
+        Thread.new do
+          while v = q.pop
+            commit, idx = *v
+            sh! 'rm', '-f', 'Gemfile.lock', chdir: repo if File.exist?(File.join repo, 'Gemfile.lock')
+            if has_gemfile_change?(commit, repo)
+              begin
+                sh! 'bundle', 'install', '--local', chdir: repo
+              rescue RuntimeError
+                sh! 'bundle', 'install', chdir: repo
+              end
+            end
+            sh! 'git', 'checkout', commit, chdir: repo
+            capture3!('bin/rubocop', '--show-cops', chdir: repo).tap do |stdout, _, _|
+              result << [idx, YAML.load(stdout)]
+            end
+          end
+        end
+      end.each(&:join)
+    end.sort_by(&:first).map{|_, v| v}
+  end
+end
+
+def main(before, after, remote)
   {}.tap do |result|
     result[:added] = []
     result[:renamed] = []
     result[:deleted] = []
 
-    chtmpdir do
-      sh! 'git', 'clone', 'git@github.com:bbatsov/rubocop.git'
-      Dir.chdir('./rubocop') do
-        cops = each_commit(before + '~', after).map do
-          capture3!('bin/rubocop', '--show-cops').yield_self do |stdout, _, _|
-            YAML.load(stdout)
-          end
-        end
-        cops.each_cons(2) do |new, old|
-          added = new.keys - old.keys
-          removed = old.keys - new.keys
-          if added.size > removed.size && removed.size == 0
-            result[:added].concat added
-          elsif added.size < removed.size && added.size == 0
-            result[:deleted].concat removed
-          elsif added.size != 0 && removed.size != 0
-            result[:renamed] << {before: removed, after: added}
-          end
-        end
+    cops = cops_each_commit(before, after, remote)
+    cops.each_cons(2) do |new, old|
+      added = new.keys - old.keys
+      removed = old.keys - new.keys
+      if added.size > removed.size && removed.size == 0
+        result[:added].concat added
+      elsif added.size < removed.size && added.size == 0
+        result[:deleted].concat removed
+      elsif added.size != 0 && removed.size != 0
+        result[:renamed] << {before: removed, after: added}
       end
     end
   end
 end
 
-before = ARGV[0]
-after = ARGV[1]
+before = ARGV[0] || raise
+after  = ARGV[1] || raise
+remote = ARGV[2] || raise
 
-out = main(before, after)
+out = main(before, after, remote)
 res = YAML.dump(out)
 puts res
 fname = '/tmp/mry_check_rubocop_update_log.yaml'
