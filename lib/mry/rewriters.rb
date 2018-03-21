@@ -3,6 +3,9 @@ module Mry
     class Rewriter_Master < YAMLRewriter::Rewriter
     end
 
+    class Rewriter_0_54_0 < YAMLRewriter::Rewriter
+    end
+
     class Rewriter_0_53_0 < YAMLRewriter::Rewriter
       define_rule ['Naming/UncommunicativeMethodArgName' => 'Naming/UncommunicativeMethodParamName']
       define_rule ['Lint/ConditionPosition' => 'Layout/ConditionPosition']
@@ -159,6 +162,7 @@ module Mry
     end
 
     Rewriters = {
+      Gem::Version.new('0.54.0') => Rewriter_0_54_0,
       Gem::Version.new('0.53.0') => Rewriter_0_53_0,
       Gem::Version.new('0.52.0') => Rewriter_0_52_0,
       Gem::Version.new('0.51.0') => Rewriter_0_51_0,

@@ -1,6 +1,9 @@
 module Mry
   module AddedCops
     Cops = {
+      Gem::Version.new('0.54.0') => %w[
+        Style/UnpackFirst
+      ],
       Gem::Version.new('0.53.0') => %w[
         Rails/ActiveRecordAliases
         Style/EmptyLineAfterGuardClause
