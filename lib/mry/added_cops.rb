@@ -1,6 +1,9 @@
 module Mry
   module AddedCops
     Cops = {
+      Gem::Version.new('0.58.0') => %w[
+        Style/IpAddresses
+      ],
       Gem::Version.new('0.57.0') => %w[
         Layout/LeadingBlankLines
         Rails/BulkChangeTable
