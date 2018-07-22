@@ -164,23 +164,11 @@ module Mry
       define_rule ['Style/SpaceAroundOperators', 'MultiSpaceAllowedForOperators' => 'AllowForAlignment']
     end
 
-    Rewriters = {
-      Gem::Version.new('0.55.0') => Rewriter_0_55_0,
-      Gem::Version.new('0.54.0') => Rewriter_0_54_0,
-      Gem::Version.new('0.53.0') => Rewriter_0_53_0,
-      Gem::Version.new('0.52.0') => Rewriter_0_52_0,
-      Gem::Version.new('0.51.0') => Rewriter_0_51_0,
-      Gem::Version.new('0.50.0') => Rewriter_0_50_0,
-      Gem::Version.new('0.49.0') => Rewriter_0_49_0,
-      Gem::Version.new('0.47.0') => Rewriter_0_47_0,
-      Gem::Version.new('0.46.0') => Rewriter_0_46_0,
-      Gem::Version.new('0.45.0') => Rewriter_0_45_0,
-      Gem::Version.new('0.44.0') => Rewriter_0_44_0,
-      Gem::Version.new('0.43.0') => Rewriter_0_43_0,
-      Gem::Version.new('0.42.0') => Rewriter_0_42_0,
-      Gem::Version.new('0.41.0') => Rewriter_0_41_0,
-      Gem::Version.new('0')      => Rewriter_0,
-    }.freeze
+    Rewriters = self.constants.grep(/^Rewriter_\d/).map do |name|
+      version = Gem::Version.new(name[/Rewriter_(.+)$/, 1].gsub('_', '.'))
+      klass = const_get(name)
+      [version, klass]
+    end.sort.reverse.to_h
 
     def self.rewriters(target)
         return [(Rewriters.values + [Rewriter_Master]).reverse, []] if target == :master
