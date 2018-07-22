@@ -3,6 +3,9 @@ module Mry
     class Rewriter_Master < YAMLRewriter::Rewriter
     end
 
+    class Rewriter_0_55_0 < YAMLRewriter::Rewriter
+    end
+
     class Rewriter_0_54_0 < YAMLRewriter::Rewriter
     end
 
@@ -162,6 +165,7 @@ module Mry
     end
 
     Rewriters = {
+      Gem::Version.new('0.55.0') => Rewriter_0_55_0,
       Gem::Version.new('0.54.0') => Rewriter_0_54_0,
       Gem::Version.new('0.53.0') => Rewriter_0_53_0,
       Gem::Version.new('0.52.0') => Rewriter_0_52_0,

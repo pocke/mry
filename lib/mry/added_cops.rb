@@ -1,6 +1,10 @@
 module Mry
   module AddedCops
     Cops = {
+      Gem::Version.new('0.55.0') => %w[
+        Performance/UnneededSort                                                                                   
+        Lint/SafeNavigationConsistency
+      ],
       Gem::Version.new('0.54.0') => %w[
         Style/UnpackFirst
       ],
