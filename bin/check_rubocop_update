@@ -90,7 +90,13 @@ def cops_each_commit(before, after, remote)
               end
             end
             sh! 'git', 'checkout', commit, chdir: repo
-            capture3!('bin/rubocop', '--show-cops', chdir: repo).tap do |stdout, _, _|
+            rubocop_path =
+              if File.exist?(File.join(repo, 'bin/rubocop'))
+                'bin/rubocop'
+              else
+                'exe/rubocop'
+              end
+            capture3!(rubocop_path, '--show-cops', chdir: repo).tap do |stdout, _, _|
               result << [idx, YAML.load(stdout)]
             end
           end
