@@ -1,6 +1,13 @@
 module Mry
   module AddedCops
     Cops = {
+      Gem::Version.new('0.57.0') => %w[
+        Layout/LeadingBlankLines
+        Rails/BulkChangeTable
+        Layout/ClosingHeredocIndentation
+        Style/UnneededCondition
+        Style/AccessModifierDeclarations
+      ],
       Gem::Version.new('0.56.0') => %w[
         Lint/SplatKeywordArguments
         Performance/InefficientHashSearch
