@@ -1,6 +1,13 @@
 module Mry
   module AddedCops
     Cops = {
+      Gem::Version.new('0.56.0') => %w[
+        Lint/SplatKeywordArguments
+        Performance/InefficientHashSearch
+        Lint/ErbNewArguments
+        Rails/AssertNot
+        Rails/RefuteMethods
+      ],
       Gem::Version.new('0.55.0') => %w[
         Performance/UnneededSort                                                                                   
         Lint/SafeNavigationConsistency

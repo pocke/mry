@@ -3,6 +3,10 @@ module Mry
     class Rewriter_Master < YAMLRewriter::Rewriter
     end
 
+    class Rewriter_0_56_0 < YAMLRewriter::Rewriter
+      define_rule ['Style/EmptyLineAfterGuardClause' => 'Layout/EmptyLineAfterGuardClause']
+    end
+
     class Rewriter_0_55_0 < YAMLRewriter::Rewriter
     end
 
