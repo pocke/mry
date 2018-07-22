@@ -75,9 +75,40 @@ Lint/RedundantWithObject:
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+### How to support new version RuboCop
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Run `bin/check_rubocop_update` script (depend on Ruby 2.6 or higher).
+This script displays renamed, added and deleted cop names.
+
+```bash
+# Clone rubocop repository if it does not exist.
+$ git clone https://github.com/rubocop-hq/rubocop/ ~/path/to/rubocop/
+$ bin/check_rubocop_update v0.55.0 v0.56.0 ~/path/to/rubocop/
+
+(...log...)
+
+:added:
+- Lint/SplatKeywordArguments
+- Performance/InefficientHashSearch
+- Lint/ErbNewArguments
+- Rails/AssertNot
+- Rails/RefuteMethods
+:renamed:
+- :before:
+  - Style/EmptyLineAfterGuardClause
+  :after:
+  - Layout/EmptyLineAfterGuardClause
+- :before:
+  - Style/MethodMissing
+  :after:
+  - Style/MethodMissingSuper
+  - Style/MissingRespondToMissing
+:deleted: []
+```
+
+Update `lib/mry/added_cops.rb` and `lib/mry/rewriters.rb` with this result.
+
+Note: Mry does not support deleted cops and split cops. See [#37](https://github.com/pocke/mry/issues/37) and [#38](https://github.com/pocke/mry/issues/38).
 
 ## Contributing
 
