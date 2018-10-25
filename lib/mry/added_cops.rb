@@ -1,6 +1,11 @@
 module Mry
   module AddedCops
     Cops = {
+      Gem::Version.new('0.59.0') => %w[
+        Performance/ChainArrayAllocation
+        Style/MultilineMethodSignature
+        Bundler/GemComment
+      ],
       Gem::Version.new('0.58.0') => %w[
         Style/IpAddresses
       ],

@@ -3,6 +3,9 @@ module Mry
     class Rewriter_Master < YAMLRewriter::Rewriter
     end
 
+    class Rewriter_0_59_0 < YAMLRewriter::Rewriter
+    end
+
     class Rewriter_0_58_0 < YAMLRewriter::Rewriter
     end
 
