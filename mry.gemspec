@@ -9,8 +9,11 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Masataka Kuwabara"]
   spec.email         = ["kuwabara@pocke.me"]
 
-  spec.summary       = %q{Mry Migrates .Rubocop.Yml}
-  spec.description   = %q{Mry Migrates .Rubocop.Yml}
+  spec.summary       = %q{Mry Migrates .rubocop.yml}
+  spec.description   = <<-EOF
+    RuboCop has many breaking changes between releases.
+    This tool migrates your RuboCop config, making updating RuboCop easier.
+  EOF
   spec.homepage      = "https://github.com/pocke/mry"
   spec.license       = 'Apache-2.0'
 
@@ -20,6 +23,11 @@ Gem::Specification.new do |spec|
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
+
+  spec.metadata = {
+    "changelog_uri"   => "https://github.com/pocke/mry/blob/master/CHANGELOG.md"
+    "source_code_uri" => "https://github.com/pocke/mry"
+  }
 
   spec.required_ruby_version = '>= 2.3.0'
 
