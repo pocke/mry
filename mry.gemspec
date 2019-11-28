@@ -25,8 +25,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.metadata = {
-    "changelog_uri"   => "https://github.com/pocke/mry/blob/master/CHANGELOG.md"
-    "source_code_uri" => "https://github.com/pocke/mry"
+    "changelog_uri"   => "https://github.com/pocke/mry/blob/master/CHANGELOG.md",
+    "source_code_uri" => "https://github.com/pocke/mry",
   }
 
   spec.required_ruby_version = '>= 2.3.0'
