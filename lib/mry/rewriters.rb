@@ -3,6 +3,28 @@ module Mry
     class Rewriter_Master < YAMLRewriter::Rewriter
     end
 
+    class Rewriter_0_77_0 < YAMLRewriter::Rewriter
+      define_rule ['Naming/UncommunicativeMethodParamName' => 'Naming/MethodParameterName']
+      define_rule ['Naming/UncommunicativeBlockParamName' => 'Naming/BlockParameterName']
+      define_rule ['Lint/StringConversionInInterpolation' => 'Lint/RedundantStringCoercion']
+      define_rule ['Lint/MultipleCompare' => 'Lint/MultipleComparison']
+      define_rule ['Lint/HandleExceptions' => 'Lint/SuppressedException']
+      define_rule ['Lint/DuplicatedKey' => 'Lint/DuplicateHashKey']
+      define_rule ['Layout/TrailingBlankLines' => 'Layout/TrailingEmptyLines']
+      define_rule ['Layout/LeadingBlankLines' => 'Layout/LeadingEmptyLines']
+      define_rule ['Layout/IndentHeredoc' => 'Layout/HeredocIndentation']
+      define_rule ['Layout/IndentFirstParameter' => 'Layout/FirstParameterIndentation']
+      define_rule ['Layout/IndentFirstHashElement' => 'Layout/FirstHashElementIndentation']
+      define_rule ['Layout/IndentFirstArrayElement' => 'Layout/FirstArrayElementIndentation']
+      define_rule ['Layout/IndentFirstArgument' => 'Layout/FirstArgumentIndentation']
+      define_rule ['Layout/IndentAssignment' => 'Layout/AssignmentIndentation']
+      define_rule ['Layout/AlignParameters' => 'Layout/ParameterAlignment']
+      define_rule ['Layout/AlignHash' => 'Layout/HashAlignment']
+      define_rule ['Layout/AlignArray' => 'Layout/ArrayAlignment']
+      define_rule ['Layout/AlignArguments' => 'Layout/ArgumentAlignment']
+    end
+
+    # TODO: Add rewriters between 0.60.0 and 0.76.0
     class Rewriter_0_59_0 < YAMLRewriter::Rewriter
     end
 
