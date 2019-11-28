@@ -1,6 +1,8 @@
 module Mry
   module AddedCops
     Cops = {
+      Gem::Version.new('0.77.0') => %w[],
+      # TODO: Add cops between 0.60.0 and 0.76.0
       Gem::Version.new('0.59.0') => %w[
         Performance/ChainArrayAllocation
         Style/MultilineMethodSignature
