@@ -96,7 +96,7 @@ def cops_each_commit(before, after, remote)
               else
                 'exe/rubocop'
               end
-            capture3!(rubocop_path, '--show-cops', chdir: repo).tap do |stdout, _, _|
+            capture3!(rubocop_path, '--show-cops', '--force-default-config', chdir: repo).tap do |stdout, _, _|
               result << [idx, YAML.load(stdout)]
             end
           end

@@ -1,8 +1,61 @@
 module Mry
+  # TODO: Replace this list with VersionAdded
   module AddedCops
     Cops = {
       Gem::Version.new('0.77.0') => %w[],
-      # TODO: Add cops between 0.60.0 and 0.76.0
+      Gem::Version.new('0.76.0') => %w[],
+      Gem::Version.new('0.75.0') => %w[
+        Migration/DepartmentName
+        Lint/SendWithMixinArgument
+      ],
+      Gem::Version.new('0.74.0') => %w[],
+      Gem::Version.new('0.73.0') => %w[
+        Style/DoubleCopDisableDirective
+        Style/MultilineWhenThen
+      ],
+      Gem::Version.new('0.72.0') => %w[
+        Style/FloatDivision
+        Gemspec/RubyVersionGlobalsUsage
+      ],
+      Gem::Version.new('0.71.0') => %w[],
+      Gem::Version.new('0.70.0') => %w[],
+      Gem::Version.new('0.69.0') => %w[
+        Style/NegatedUnless
+      ],
+      Gem::Version.new('0.68.0') => %w[
+        Layout/HeredocArgumentClosingParenthesis
+        Layout/IndentFirstParameter
+        Lint/HeredocMethodCallPosition
+      ],
+      Gem::Version.new('0.67.0') => %w[
+        Naming/RescuedExceptionsVariableName
+        Layout/MultilineArrayLineBreaks
+        Layout/MultilineHashKeyLineBreaks
+        Layout/MultilineMethodArgumentLineBreaks
+        Rails/ActiveRecordOverride
+        Rails/RedundantAllowNil
+      ],
+      Gem::Version.new('0.66.0') => %w[
+        Lint/SafeNavigationWithEmpty
+        Lint/ToJSON
+        Style/ConstantVisibility
+      ],
+      Gem::Version.new('0.65.0') => %w[],
+      Gem::Version.new('0.64.0') => %w[
+        Rails/ReflectionClassName
+      ],
+      Gem::Version.new('0.63.0') => %w[
+        Rails/IgnoredSkipActionFilterOption
+        Rails/BelongsTo
+      ],
+      Gem::Version.new('0.62.0') => %w[
+        Rails/LinkToBlank
+        Lint/DisjunctiveAssignmentInConstructor
+      ],
+      Gem::Version.new('0.61.0') => %w[
+        Performance/OpenStruct
+      ],
+      Gem::Version.new('0.60.0') => %w[],
       Gem::Version.new('0.59.0') => %w[
         Performance/ChainArrayAllocation
         Style/MultilineMethodSignature
