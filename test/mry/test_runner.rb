@@ -40,6 +40,20 @@ class TestRunner < Minitest::Test
     check_run(prev, expected, :master)
   end
 
+  def test_run_with_0_77_0
+    prev = <<~END
+      Bundler/GemComment:
+        Whitelist: []
+    END
+
+    expected = <<~END
+      Bundler/GemComment:
+        IgnoredGems: []
+    END
+
+    check_run(prev, expected, '0.77.0')
+  end
+
   def test_run_with_0_47_0
     prev = <<~END
       # master
