@@ -22,6 +22,17 @@ module Mry
       define_rule ['Layout/AlignHash' => 'Layout/HashAlignment']
       define_rule ['Layout/AlignArray' => 'Layout/ArrayAlignment']
       define_rule ['Layout/AlignArguments' => 'Layout/ArgumentAlignment']
+
+      define_rule ['Bundler/GemComment', 'Whitelist' => 'IgnoredGems']
+      define_rule ['Lint/SafeNavigationChain', 'Whitelist' => 'AllowedMethods']
+      define_rule ['Lint/SafeNavigationConsistency', 'Whitelist' => 'AllowedMethods']
+      define_rule ['Naming/HeredocDelimiterNaming', 'Blacklist' => 'ForbiddenDelimiters']
+      define_rule ['Naming/PredicateName', 'NamePrefixBlacklist' => 'ForbiddenPrefixes']
+      define_rule ['Naming/PredicateName', 'NameWhitelist' => 'AllowedMethods']
+      define_rule ['Style/IpAddresses', 'Whitelist' => 'AllowedAddresses']
+      define_rule ['Style/NestedParenthesizedCalls', 'Whitelist' => 'AllowedMethods']
+      define_rule ['Style/SafeNavigation', 'Whitelist' => 'AllowedMethods']
+      define_rule ['Style/TrivialAccessors', 'Whitelist' => 'AllowedMethods']
     end
 
     class Rewriter_0_76_0 < YAMLRewriter::Rewriter
