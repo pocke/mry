@@ -24,7 +24,73 @@ module Mry
       define_rule ['Layout/AlignArguments' => 'Layout/ArgumentAlignment']
     end
 
-    # TODO: Add rewriters between 0.60.0 and 0.76.0
+    class Rewriter_0_76_0 < YAMLRewriter::Rewriter
+      define_rule ['Lint/UnneededSplatExpansion' => 'Lint/RedundantSplatExpansion']
+      define_rule ['Lint/UnneededRequireStatement' => 'Lint/RedundantRequireStatement']
+      define_rule ['Lint/UnneededCopEnableDirective' => 'Lint/RedundantCopEnableDirective']
+      define_rule ['Lint/UnneededCopDisableDirective' => 'Lint/RedundantCopDisableDirective']
+      define_rule ['Style/UnneededSort' => 'Style/RedundantSort']
+      define_rule ['Style/UnneededPercentQ' => 'Style/RedundantPercentQ']
+      define_rule ['Style/UnneededInterpolation' => 'Style/RedundantInterpolation']
+      define_rule ['Style/UnneededCondition' => 'Style/RedundantCondition']
+      define_rule ['Style/UnneededCapitalW' => 'Style/RedundantCapitalW']
+    end
+
+    class Rewriter_0_75_0 < YAMLRewriter::Rewriter
+    end
+
+    class Rewriter_0_74_0 < YAMLRewriter::Rewriter
+    end
+
+    class Rewriter_0_73_0 < YAMLRewriter::Rewriter
+    end
+
+    class Rewriter_0_72_0 < YAMLRewriter::Rewriter
+    end
+
+    class Rewriter_0_71_0 < YAMLRewriter::Rewriter
+    end
+
+    class Rewriter_0_70_0 < YAMLRewriter::Rewriter
+    end
+
+    class Rewriter_0_69_0 < YAMLRewriter::Rewriter
+    end
+
+    class Rewriter_0_68_0 < YAMLRewriter::Rewriter
+      define_rule ['Layout/FirstParameterIndentation' => 'Layout/IndentFirstArgument']
+    end
+
+    class Rewriter_0_67_0 < YAMLRewriter::Rewriter
+      define_rule ['Performance/RedundantSortBy' => 'Style/RedundantSortBy']
+      define_rule ['PerfoPerformance/Sample' => 'Style/Sample']
+      define_rule ['PerfoPerformance/UnneededSort' => 'Style/UnneededSort']
+      define_rule ['Style/LstripRstrip' => 'Style/Strip']
+      define_rule ['Performance/LstripRstrip' => 'Style/LstripRstrip']
+    end
+
+    class Rewriter_0_66_0 < YAMLRewriter::Rewriter
+    end
+
+    class Rewriter_0_65_0 < YAMLRewriter::Rewriter
+    end
+
+    class Rewriter_0_64_0 < YAMLRewriter::Rewriter
+    end
+
+    class Rewriter_0_63_0 < YAMLRewriter::Rewriter
+      define_rule ['Style/FlipFlop' => 'Lint/FlipFlop']
+    end
+
+    class Rewriter_0_62_0 < YAMLRewriter::Rewriter
+    end
+
+    class Rewriter_0_61_0 < YAMLRewriter::Rewriter
+    end
+
+    class Rewriter_0_60_0 < YAMLRewriter::Rewriter
+    end
+
     class Rewriter_0_59_0 < YAMLRewriter::Rewriter
     end
 
