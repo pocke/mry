@@ -2,6 +2,9 @@ module Mry
   # TODO: Replace this list with VersionAdded
   module AddedCops
     Cops = {
+      Gem::Version.new('0.78.0') => %w[
+        Lint/NonDeterministicRequireOrder
+      ],
       Gem::Version.new('0.77.0') => %w[],
       Gem::Version.new('0.76.0') => %w[],
       Gem::Version.new('0.75.0') => %w[

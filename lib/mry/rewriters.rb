@@ -3,6 +3,10 @@ module Mry
     class Rewriter_Master < YAMLRewriter::Rewriter
     end
 
+    class Rewriter_0_78_0 < YAMLRewriter::Rewriter
+      define_rule ['Metrics/LineLength' => 'Layout/LineLength']
+    end
+
     class Rewriter_0_77_0 < YAMLRewriter::Rewriter
       define_rule ['Naming/UncommunicativeMethodParamName' => 'Naming/MethodParameterName']
       define_rule ['Naming/UncommunicativeBlockParamName' => 'Naming/BlockParameterName']
